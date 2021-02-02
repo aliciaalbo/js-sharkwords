@@ -20,7 +20,7 @@ let numWrong = 0;
 //
 const createDivsForChars = (word) => {
 for (const letter in word) {
-  $('#word-container').append(`<div class="letter-box ${letter}"></div>`);
+  $('#word-container').append(`<div class="letter-box ${word[letter]}"></div>`);
   }
 };
 
@@ -45,22 +45,36 @@ const disableLetterButton = (buttonEl) => {
 // Return `true` if `letter` is in the word.
 //
 const isLetterInWord = (letter) => {
-  // Replace this with your code
+  // if letter === class of div return true
+  if($(`div.${letter}`)[0] !== undefined){
+    return true;
+  }
 };
 
 // Called when `letter` is in word. Update contents of divs with `letter`.
 //
 const handleCorrectGuess = (letter) => {
-  // Replace this with your code
+
+      $(`div.letter-box.${letter}`).html(letter);
+    
 };
 
 // Called when `letter` is not in word.
 //
 // If the shark gets the person, disable all buttons and show the "play again"
 // message. Otherwise, increment `numWrong` and update the shark image.
-//
+
 const handleWrongGuess = () => {
-  // Replace this with your code
+
+  numWrong ++; 
+  $('img').attr('src', `/static/images/guess${numWrong}.png`);
+
+  if (numWrong === 5){
+    $('#play-again').show();
+    $('button').attr('disabled', true);
+    
+ }
+
 };
 
 //  Reset game state. Called before restarting the game.
@@ -85,8 +99,10 @@ const resetGame = () => {
     const letter = clickedBtn.html();
 
     if (isLetterInWord(letter)) {
+      console.log('youre right');
       handleCorrectGuess(letter);
     } else {
+      console.log('youre wrong');
       handleWrongGuess(letter);
     }
   });
